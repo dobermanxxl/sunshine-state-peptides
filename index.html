@@ -877,6 +877,68 @@
 
   .checkout-btn:hover { background: var(--teal-dim); }
 
+  .discount-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .discount-input {
+    flex: 1;
+    border: 1px solid var(--cream-mid);
+    background: var(--cream);
+    padding: 9px 12px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--navy);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .discount-input:focus { border-color: var(--teal); background: var(--white); }
+  .discount-apply-btn {
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    padding: 9px 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .discount-apply-btn:hover { background: var(--teal-dim); }
+  .discount-msg {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    border-radius: 2px;
+    display: none;
+  }
+  .discount-msg.success {
+    display: block;
+    background: rgba(0,184,169,0.1);
+    border: 1px solid rgba(0,184,169,0.3);
+    color: var(--teal-dim);
+  }
+  .discount-msg.error {
+    display: block;
+    background: rgba(192,57,43,0.07);
+    border: 1px solid rgba(192,57,43,0.25);
+    color: var(--danger);
+  }
+  .cart-savings {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--teal-dim);
+    margin-bottom: 8px;
+  }
+
   /* ─── CHECKOUT MODAL ─── */
   .modal-overlay {
     display: none;
@@ -1889,8 +1951,17 @@
       <div class="cart-empty">Your cart is empty.</div>
     </div>
     <div class="cart-footer" id="cart-footer" style="display:none;">
+      <div class="discount-row">
+        <input class="discount-input" id="discount-input" type="text" placeholder="Discount code">
+        <button class="discount-apply-btn" onclick="applyDiscount()">Apply</button>
+      </div>
+      <div class="discount-msg" id="discount-msg"></div>
+      <div class="cart-savings" id="cart-savings" style="display:none;">
+        <span>Discount (20% off)</span>
+        <span id="cart-savings-amount">−$0.00</span>
+      </div>
       <div class="cart-total">
-        <span class="cart-total-label">Subtotal</span>
+        <span class="cart-total-label">Total</span>
         <span class="cart-total-amount" id="cart-total">$0.00</span>
       </div>
       <button class="checkout-btn" onclick="openCheckout()">Place Order →</button>
@@ -2213,6 +2284,9 @@ const REAGENTS_FALLBACK = [
 //  CART STATE
 // ═══════════════════════════════════════════════════════
 let cart = {};
+let discountApplied = false;
+const DISCOUNT_CODE = 'buzzard20';
+const DISCOUNT_RATE = 0.20;
 let PEPTIDES = [];
 let REAGENTS = [];
 let allProducts = [];
@@ -2435,7 +2509,18 @@ function renderCartBody() {
 
   body.innerHTML = itemsHTML + suggestHTML;
   footer.style.display = 'block';
-  document.getElementById('cart-total').textContent = '$' + total.toFixed(2);
+  // Apply discount if active
+  const savings = discountApplied ? total * DISCOUNT_RATE : 0;
+  const finalTotal = total - savings;
+  const savingsEl = document.getElementById('cart-savings');
+  const savingsAmt = document.getElementById('cart-savings-amount');
+  if (discountApplied) {
+    savingsEl.style.display = 'flex';
+    savingsAmt.textContent = '−$' + savings.toFixed(2);
+  } else {
+    savingsEl.style.display = 'none';
+  }
+  document.getElementById('cart-total').textContent = '$' + finalTotal.toFixed(2);
 }
 
 function getSuggestions(cartIds) {
@@ -2472,6 +2557,27 @@ function quickAdd(id) {
   showToast(getProduct(id).shortName + ' added');
 }
 
+function applyDiscount() {
+  const input = document.getElementById('discount-input');
+  const msg = document.getElementById('discount-msg');
+  const code = input.value.trim();
+
+  if (code === DISCOUNT_CODE) {
+    discountApplied = true;
+    msg.className = 'discount-msg success';
+    msg.textContent = '✓ 20% discount applied!';
+    input.disabled = true;
+    document.querySelector('.discount-apply-btn').disabled = true;
+    document.querySelector('.discount-apply-btn').style.opacity = '0.5';
+    renderCartBody();
+  } else {
+    discountApplied = false;
+    msg.className = 'discount-msg error';
+    msg.textContent = '✕ Invalid discount code.';
+    renderCartBody();
+  }
+}
+
 function openCart() {
   document.getElementById('cart-overlay').classList.add('open');
 }
@@ -2498,6 +2604,11 @@ function openCheckout() {
     total += sub;
     return `<div class="checkout-item-row"><span class="item-name">${p.shortName} × ${cart[id]}</span><span>$${sub}</span></div>`;
   }).join('');
+  if (discountApplied) {
+    const savings = total * DISCOUNT_RATE;
+    rows += `<div class="checkout-item-row" style="color:var(--teal-dim);"><span class="item-name">Discount (buzzard20 — 20% off)</span><span>−$${savings.toFixed(2)}</span></div>`;
+    total = total - savings;
+  }
   rows += `<div class="checkout-total-row"><span>Total</span><span>$${total.toFixed(2)}</span></div>`;
   document.getElementById('checkout-summary').innerHTML = '<h4>Order Summary</h4>' + rows;
 
