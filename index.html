@@ -2560,24 +2560,22 @@ const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // from Email Templates tab
 
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
-function sendOrderEmail(first, last, email, lab, orderLines, total) {
-  const templateParams = {
-    customer_name:  `${first} ${last}`,
-    customer_email: email,
-    lab_name:       lab || 'N/A',
-    order_items:    orderLines.join('\n'),
-    order_total:    `$${total.toFixed(2)}`,
-    reply_to:       email
-  };
-
-  // Show thank-you page immediately; send email in background
+async function sendOrderEmail(first, last, email, lab, orderLines, total) {
   showThankYouPage(first, last, email, lab, orderLines, total);
   cart = {};
   updateCartUI();
 
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-    .then(() => console.log('Order email sent.'))
-    .catch(err => console.warn('EmailJS error (configure keys to enable):', err));
+  try {
+    const res = await fetch('/api/send-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ first, last, email, lab, orderLines, total })
+    });
+    if (!res.ok) throw new Error('Failed');
+    console.log('Order email sent successfully.');
+  } catch (err) {
+    console.warn('Email send failed:', err);
+  }
 }
 
 function showThankYouPage(first, last, email, lab, orderLines, total) {
