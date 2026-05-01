@@ -68,7 +68,7 @@ export default async function handler(req, res) {
             </tr>
           </tfoot>
         </table>
-        <p style="font-size:13px;color:#666;">Payment accepted via Cash or Venmo. Details will be provided when we confirm your order.</p>
+        <p style="font-size:13px;color:#666;">We will follow up with payment options when we confirm your order.</p>
         <p style="font-size:12px;color:#999;margin-top:24px;border-top:1px solid #ddd;padding-top:16px;">These compounds are for in vitro laboratory research purposes only. Not for human consumption or clinical use.</p>
       </div>
     </div>`;
