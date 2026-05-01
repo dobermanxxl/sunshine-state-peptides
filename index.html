@@ -2079,9 +2079,14 @@
 
 <script>
 // ═══════════════════════════════════════════════════════
-//  PRODUCT DATA — Easy to add/edit products here
+//  GOOGLE SHEETS CSV URL — update this if you republish
 // ═══════════════════════════════════════════════════════
-const PEPTIDES = [
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxHFobKWEkE3ue6txkYENO7zUnqtu_d8Wjme-C8_28R6_cCD2YlKw-sFo4FrXkGyJqybttXx8t2vc5/pub?gid=0&single=true&output=csv';
+
+// ═══════════════════════════════════════════════════════
+//  FALLBACK PRODUCT DATA (used if sheet is unavailable)
+// ═══════════════════════════════════════════════════════
+const PEPTIDES_FALLBACK = [
   {
     id: 'bpc157',
     name: 'BPC-157, 5 mg (lyophilized)',
@@ -2188,7 +2193,7 @@ const PEPTIDES = [
   }
 ];
 
-const REAGENTS = [
+const REAGENTS_FALLBACK = [
   {
     id: 'bacwater',
     name: 'Bacteriostatic Water (BAC Water), 30 mL',
@@ -2207,12 +2212,81 @@ const REAGENTS = [
 // ═══════════════════════════════════════════════════════
 //  CART STATE
 // ═══════════════════════════════════════════════════════
-let cart = {};  // { productId: quantity }
-
-const allProducts = [...PEPTIDES, ...REAGENTS];
+let cart = {};
+let PEPTIDES = [];
+let REAGENTS = [];
+let allProducts = [];
 
 function getProduct(id) {
   return allProducts.find(p => p.id === id);
+}
+
+// ═══════════════════════════════════════════════════════
+//  CSV PARSER
+// ═══════════════════════════════════════════════════════
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+  return lines.slice(1).map(line => {
+    // Handle quoted fields with commas inside
+    const values = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') { inQuotes = !inQuotes; }
+      else if (ch === ',' && !inQuotes) { values.push(current.trim()); current = ''; }
+      else { current += ch; }
+    }
+    values.push(current.trim());
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = (values[i] || '').replace(/^"|"$/g, '').trim(); });
+    return obj;
+  }).filter(row => row.id && row.id.length > 0);
+}
+
+function csvRowToProduct(row) {
+  return {
+    id:        row.id,
+    name:      row.name,
+    shortName: row.shortName,
+    mg:        row.mg,
+    price:     parseFloat(row.price) || 0,
+    cas:       row.cas,
+    sequence:  row.sequence,
+    formula:   row.formula,
+    mw:        row.mw,
+    desc:      row.desc,
+    pairsWith: row.pairsWith ? row.pairsWith.split('|').map(s => s.trim()).filter(Boolean) : [],
+    category:  row.category || 'peptide'
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+//  LOAD PRODUCTS FROM GOOGLE SHEETS
+// ═══════════════════════════════════════════════════════
+async function loadProducts() {
+  const grid1 = document.getElementById('peptides-grid');
+  const grid2 = document.getElementById('reagents-grid');
+  if (grid1) grid1.innerHTML = '<div style="padding:24px;font-family:var(--font-mono);font-size:13px;color:var(--gray-600);">Loading products...</div>';
+  if (grid2) grid2.innerHTML = '';
+
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    if (!res.ok) throw new Error('Sheet fetch failed');
+    const text = await res.text();
+    const rows = parseCSV(text);
+    const products = rows.map(csvRowToProduct);
+    PEPTIDES   = products.filter(p => p.category !== 'reagent');
+    REAGENTS   = products.filter(p => p.category === 'reagent');
+    allProducts = [...PEPTIDES, ...REAGENTS];
+  } catch (e) {
+    console.warn('Could not load Google Sheet, using fallback data.', e);
+    PEPTIDES    = PEPTIDES_FALLBACK;
+    REAGENTS    = REAGENTS_FALLBACK;
+    allProducts = [...PEPTIDES, ...REAGENTS];
+  }
+  renderProducts();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2236,6 +2310,9 @@ function vialSVG(color = '#00b8a9') {
 function renderProducts() {
   renderGrid('peptides-grid', PEPTIDES);
   renderGrid('reagents-grid', REAGENTS);
+  // Hide reagents section header if no reagents
+  const reagentSection = document.getElementById('reagents-section');
+  if (reagentSection) reagentSection.style.display = REAGENTS.length ? '' : 'none';
 }
 
 function renderGrid(containerId, products) {
@@ -2607,7 +2684,7 @@ function showToast(msg) {
 //  INIT
 // ═══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-  renderProducts();
+  loadProducts();
 });
 </script>
 </body>
