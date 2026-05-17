@@ -2009,21 +2009,19 @@
         <div class="sig-release">
           By signing below, I confirm that I am <strong>18 years of age or older</strong>, that I am purchasing these compounds <strong>exclusively for in vitro laboratory research purposes</strong>, and that they will NOT be used for human or animal consumption, clinical use, resale, or any illegal purpose. I hereby release <strong>Sunshine State Peptides</strong>, its owners, employees, and all affiliates from any and all liability, claims, or damages arising from any misuse, improper handling, or use of these compounds contrary to their stated research-only purpose.
         </div>
-        <div class="sig-tabs">
-          <button class="sig-tab active" onclick="switchSigTab('type', this)">&#9998; Type Name</button>
-          <button class="sig-tab" onclick="switchSigTab('draw', this)">&#9997; Draw Signature</button>
-        </div>
-        <div class="sig-pane active" id="sig-pane-type">
+        <div style="padding:16px;background:var(--white);border-bottom:1px solid var(--cream-mid);">
+          <label style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-600);display:block;margin-bottom:8px;">1. Type Your Full Legal Name</label>
           <input class="sig-type-input" id="sig-typed" type="text" placeholder="Type your full legal name to sign" autocomplete="off">
         </div>
-        <div class="sig-pane" id="sig-pane-draw">
+        <div style="padding:16px;background:var(--white);">
+          <label style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-600);display:block;margin-bottom:8px;">2. Draw Your Signature</label>
           <div class="sig-canvas-wrap">
             <canvas id="sig-canvas"></canvas>
             <button class="sig-clear-btn" onclick="clearSignature()">Clear</button>
           </div>
           <div class="sig-hint">Sign with your finger or mouse</div>
         </div>
-        <div class="sig-error" id="sig-error">Please provide your signature before placing your order.</div>
+        <div class="sig-error" id="sig-error">Please type your name AND draw your signature before placing your order.</div>
       </div>
 
       <div class="payment-note">
@@ -2046,7 +2044,7 @@
         </svg>
       </div>
       <h2>Order Submitted</h2>
-      <p>Thank you for your research order. Our team will contact you at the email address provided within <strong>24 hours</strong> to arrange payment (Cash or Venmo) and pickup or delivery logistics.</p>
+      <p>Thank you for your research order. Our team will contact you at the email address provided within <strong>24 hours</strong> to confirm your order and follow up with next steps.</p>
       <div class="highlight" id="success-summary"></div>
       <p style="font-size:13px;color:#aaa;font-family:'DM Mono',monospace;">Questions? Use our contact form or reply to the confirmation email.</p>
       <button class="btn-primary" style="margin-top:8px;" onclick="closeSuccessModal()">Continue Browsing</button>
@@ -2073,7 +2071,7 @@
         </h1>
 
         <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto;">
-          Your order has been received and submitted to our team. We will contact you at the email address you provided within <strong style="color:rgba(255,255,255,0.85);">24 hours</strong> to confirm your order, arrange payment, and determine your preferred method of delivery or pickup.
+          Your order has been received and submitted to our team. We will contact you at the email address you provided within <strong style="color:rgba(255,255,255,0.85);">24 hours</strong> to confirm your order and follow up with next steps.
         </p>
 
         <!-- Order recap card -->
@@ -2081,16 +2079,10 @@
           <!-- Filled by JS -->
         </div>
 
-        <!-- Payment + what's next -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px;text-align:left;">
-          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:20px;">
-            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">Payment</div>
-            <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;">Cash or Venmo accepted. Payment details will be provided when we reach out.</div>
-          </div>
-          <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:20px;">
-            <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">Delivery</div>
-            <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;">Pickup or local delivery available. We'll coordinate the method with you directly.</div>
-          </div>
+        <!-- What's next -->
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:20px;margin-bottom:40px;text-align:left;">
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">What's Next</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;">Our team will be in touch within 24 hours to confirm your order.</div>
         </div>
 
         <!-- Research reminder -->
@@ -2527,16 +2519,7 @@ function sigCanvasEmpty(canvas) {
   return !data.some(v => v !== 0);
 }
 
-function switchSigTab(tab, btn) {
-  document.querySelectorAll('.sig-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.sig-pane').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('sig-pane-' + tab).classList.add('active');
-  document.getElementById('sig-error').style.display = 'none';
-  if (tab === 'draw') {
-    setTimeout(initSignatureCanvas, 50);
-  }
-}
+// switchSigTab removed — both fields now always visible
 
 function openCart() {
   document.getElementById('cart-overlay').classList.add('open');
@@ -2568,6 +2551,7 @@ function openCheckout() {
   document.getElementById('checkout-summary').innerHTML = '<h4>Order Summary</h4>' + rows;
 
   document.getElementById('checkout-modal').classList.add('open');
+  setTimeout(initSignatureCanvas, 100);
 }
 
 function closeCheckout() {
@@ -2594,28 +2578,22 @@ function placeOrder() {
     return;
   }
 
-  // Validate signature
+  // Validate BOTH typed name and drawn signature
   const sigError = document.getElementById('sig-error');
-  const activePane = document.querySelector('.sig-pane.active');
-  let signatureData = null;
+  const typed = document.getElementById('sig-typed').value.trim();
+  const canvas = document.getElementById('sig-canvas');
 
-  if (activePane && activePane.id === 'sig-pane-type') {
-    const typed = document.getElementById('sig-typed').value.trim();
-    if (!typed) {
-      sigError.style.display = 'block';
-      document.getElementById('sig-typed').focus();
-      return;
-    }
-    signatureData = 'Typed: ' + typed;
-  } else {
-    const canvas = document.getElementById('sig-canvas');
-    if (sigCanvasEmpty(canvas)) {
-      sigError.style.display = 'block';
-      return;
-    }
-    signatureData = canvas.toDataURL('image/png');
+  if (!typed || sigCanvasEmpty(canvas)) {
+    sigError.style.display = 'block';
+    if (!typed) document.getElementById('sig-typed').focus();
+    return;
   }
   sigError.style.display = 'none';
+
+  const signatureData = JSON.stringify({
+    typed: typed,
+    drawn: canvas.toDataURL('image/png')
+  });
 
   // Build order summary
   const keys = Object.keys(cart).filter(k => cart[k] > 0);
