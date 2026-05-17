@@ -1083,6 +1083,97 @@
     letter-spacing: 0.03em;
   }
 
+  /* ── SIGNATURE BLOCK ── */
+  .sig-block {
+    margin: 24px 0 16px;
+    border: 1px solid var(--cream-mid);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .sig-block-header {
+    background: var(--navy);
+    color: var(--white);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .sig-release {
+    background: var(--cream);
+    padding: 14px 16px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--cream-mid);
+  }
+  .sig-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--cream-mid);
+    background: var(--white);
+  }
+  .sig-tab {
+    flex: 1;
+    padding: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--gray-500);
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  .sig-tab.active {
+    color: var(--teal-dim);
+    border-bottom-color: var(--teal);
+    background: rgba(0,184,169,0.04);
+  }
+  .sig-pane { display: none; padding: 16px; background: var(--white); }
+  .sig-pane.active { display: block; }
+  .sig-type-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid var(--navy);
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--navy);
+    padding: 8px 4px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  .sig-type-input::placeholder { color: var(--gray-400); font-size: 15px; font-style: normal; }
+  .sig-canvas-wrap { position: relative; }
+  canvas#sig-canvas {
+    display: block;
+    width: 100%;
+    height: 140px;
+    border: 1px dashed var(--cream-mid);
+    border-radius: 2px;
+    cursor: crosshair;
+    touch-action: none;
+  }
+  .sig-clear-btn {
+    position: absolute;
+    top: 6px; right: 6px;
+    background: rgba(255,255,255,0.85);
+    border: 1px solid var(--cream-mid);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    cursor: pointer;
+    color: var(--gray-600);
+  }
+  .sig-clear-btn:hover { background: var(--cream); }
+  .sig-hint { font-family: var(--font-mono); font-size: 10px; color: var(--gray-400); margin-top: 6px; }
+  .sig-error { color: var(--danger); font-family: var(--font-mono); font-size: 11px; margin-top: 6px; display: none; }
+
   .place-order-btn {
     width: 100%;
     background: var(--teal);
@@ -1516,8 +1607,8 @@
   <section class="hero">
     <div class="hero-grid"></div>
     <div class="hero-inner">
-      <div class="hero-badge">SSP Biochemicals — Est. California</div>
-      <h1>High-purity peptides for <span>laboratory research</span></h1>
+      <div class="hero-badge">SSP Biochemicals</div>
+      <h1>Research peptides for <span>laboratory use</span></h1>
       <p class="hero-sub">Rigorously synthesized research-grade biochemicals for in vitro and laboratory investigation. All compounds are sold exclusively for scientific research purposes.</p>
       <div class="hero-actions">
         <button class="btn-primary" onclick="showPage('products')">Browse Catalog</button>
@@ -1525,16 +1616,16 @@
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-num">≥98%</span>
-          <span class="stat-label">Purity Standard</span>
+          <span class="stat-num">In Vitro</span>
+          <span class="stat-label">Use Only</span>
         </div>
         <div class="stat-item">
           <span class="stat-num">Lyophilized</span>
           <span class="stat-label">Formulation</span>
         </div>
         <div class="stat-item">
-          <span class="stat-num">CA-Based</span>
-          <span class="stat-label">Origin</span>
+          <span class="stat-num">Research</span>
+          <span class="stat-label">Compounds</span>
         </div>
         <div class="stat-item">
           <span class="stat-num">Research</span>
@@ -1559,8 +1650,8 @@
             <circle cx="29" cy="16" r="3" stroke="currentColor" stroke-width="1.2"/>
             <line x1="18" y1="20" x2="22" y2="18" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2"/>
           </svg>
-          <h3>Verified Purity</h3>
-          <p>All peptides are lyophilized, sequence-verified, and held to strict ≥98% purity standards for reliable research reproducibility.</p>
+          <h3>Research Grade</h3>
+          <p>All peptides are lyophilized and intended strictly for in vitro laboratory research use only.</p>
         </div>
         <div class="feature-card">
           <svg class="feature-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1589,8 +1680,8 @@
           <svg class="feature-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M20 4 L23 13 L33 13 L25 19 L28 28 L20 22 L12 28 L15 19 L7 13 L17 13 Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
           </svg>
-          <h3>California Research Standards</h3>
-          <p>Sourced and distributed from California, adhering to the highest regional standards for laboratory-grade research chemicals.</p>
+          <h3>Research Use Only</h3>
+          <p>All compounds are supplied exclusively for in vitro laboratory research. Not intended for human or animal use.</p>
         </div>
         <div class="feature-card">
           <svg class="feature-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1603,7 +1694,7 @@
             <rect x="26" y="20" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/>
           </svg>
           <h3>Fast, Reliable Fulfillment</h3>
-          <p>Orders confirmed within 24 hours. Pickup and local delivery available throughout Southern California for qualified researchers.</p>
+          <p>Orders confirmed within 24 hours. Pickup and local delivery available for qualified researchers.</p>
         </div>
         <div class="feature-card">
           <svg class="feature-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1692,12 +1783,12 @@
       <div class="docs-block">
         <h3>Compound Specifications</h3>
         <p>Each product is accompanied by basic chemical identification data including IUPAC sequence (where applicable), CAS registry number, molecular formula, and molecular weight. This information is provided for research identification purposes only and does not constitute a recommendation for any particular use.</p>
-        <p>Purity is verified at <span class="mono-tag">≥98%</span> by HPLC analysis. Formulation is lyophilized powder unless otherwise noted.</p>
+        <p>All compounds are supplied as lyophilized powder unless otherwise noted. Intended for in vitro research use only.</p>
       </div>
 
       <div class="docs-block">
         <h3>Ordering & Fulfillment</h3>
-        <p>Orders are placed by submitting the online form. Upon submission, a confirmation will be sent and a representative will contact you within 24 hours to arrange payment and logistics. Accepted payment methods are <span class="mono-tag">Cash</span> and <span class="mono-tag">Venmo</span>. Pickup and local delivery available throughout California.</p>
+        <p>Orders are placed by submitting the online form. Upon submission, a confirmation will be sent and a representative will contact you within 24 hours to follow up with payment options and logistics.</p>
         <p>Maximum order quantity is 15 vials per product per order. All transactions are subject to verification of research intent.</p>
       </div>
 
@@ -1750,7 +1841,7 @@
           <tbody>
             <tr><td>Chain length</td><td>2–50 amino acids</td><td>Oligopeptides (&lt;10), polypeptides (10–50)</td></tr>
             <tr><td>Molecular weight</td><td>~200–6,000 Da</td><td>Varies by sequence length</td></tr>
-            <tr><td>Purity (research grade)</td><td>≥95–98%</td><td>Verified by HPLC/MS</td></tr>
+            <tr><td>Form</td><td>Lyophilized powder</td><td>Unless otherwise noted</td></tr>
             <tr><td>Storage temperature</td><td>−20°C to −80°C</td><td>Lyophilized form preferred</td></tr>
             <tr><td>Bond type</td><td>Amide (peptide) bond</td><td>—CO—NH— linkage</td></tr>
           </tbody>
@@ -1762,7 +1853,7 @@
         <p>The scientific study of peptides has its roots in early 20th century organic chemistry. In 1902, Emil Fischer and Franz Hofmeister independently proposed the peptide bond theory, establishing the framework for understanding protein primary structure. Fischer went on to synthesize the first dipeptide — glycylglycine — in 1907, demonstrating that amino acids could be artificially linked in the laboratory.</p>
         <p>The mid-20th century brought transformative advances. Frederick Sanger's 1951 determination of the amino acid sequence of insulin — the first complete sequence of any protein — won him the Nobel Prize in Chemistry in 1958. This achievement validated the concept that biological activity is encoded in precise molecular sequence, laying groundwork for the modern peptide research era.</p>
         <p>Solid-phase peptide synthesis (SPPS), developed by Robert Bruce Merrifield in the early 1960s and recognized with the Nobel Prize in 1984, was a watershed moment. SPPS allowed researchers to build peptide chains of defined sequence step-by-step on a solid resin support, dramatically simplifying production and enabling the systematic synthesis of novel sequences for research investigation.</p>
-        <p>From the 1970s onward, advances in analytical chemistry — particularly high-performance liquid chromatography (HPLC) and mass spectrometry — enabled precise purity verification and structural confirmation of synthesized peptides. Today, combinatorial chemistry and computational modeling accelerate the design of novel peptide sequences for research investigation.</p>
+        <p>From the 1970s onward, advances in analytical chemistry enabled more precise structural confirmation of synthesized peptides. Today, combinatorial chemistry and computational modeling accelerate the design of novel peptide sequences for research investigation.</p>
       </div>
 
       <div class="about-block">
@@ -1774,7 +1865,7 @@
 
       <div class="about-block">
         <h2>About Sunshine State Peptides</h2>
-        <p>Sunshine State Peptides is a California-based supplier of laboratory-grade research biochemicals. We source and supply high-purity, lyophilized peptides and reagents for use by qualified researchers and scientific institutions. Our focus is on chemical quality, transparent documentation, and responsible distribution.</p>
+        <p>Sunshine State Peptides is a supplier of lyophilized research peptides and reagents for use by qualified researchers and scientific institutions. Our focus is on responsible distribution and transparent documentation. All products are for in vitro laboratory research use only.</p>
         <p>We do not provide guidance on therapeutic, clinical, or in vivo applications. All customers must confirm research-only intent prior to purchase. For questions about our compounds or ordering process, please use our contact form.</p>
       </div>
 
@@ -1912,8 +2003,31 @@
         <label for="research-confirm">I confirm that I am purchasing these compounds exclusively for in vitro laboratory research purposes. I understand they are NOT for human or animal consumption, NOT for clinical use, and NOT for resale for human-use purposes. I release Sunshine State Peptides from all liability arising from any misuse of these research chemicals.</label>
       </div>
 
+      <!-- ── SIGNATURE BLOCK ── -->
+      <div class="sig-block">
+        <div class="sig-block-header">Electronic Signature &amp; Release</div>
+        <div class="sig-release">
+          By signing below, I confirm that I am <strong>18 years of age or older</strong>, that I am purchasing these compounds <strong>exclusively for in vitro laboratory research purposes</strong>, and that they will NOT be used for human or animal consumption, clinical use, resale, or any illegal purpose. I hereby release <strong>Sunshine State Peptides</strong>, its owners, employees, and all affiliates from any and all liability, claims, or damages arising from any misuse, improper handling, or use of these compounds contrary to their stated research-only purpose.
+        </div>
+        <div class="sig-tabs">
+          <button class="sig-tab active" onclick="switchSigTab('type', this)">&#9998; Type Name</button>
+          <button class="sig-tab" onclick="switchSigTab('draw', this)">&#9997; Draw Signature</button>
+        </div>
+        <div class="sig-pane active" id="sig-pane-type">
+          <input class="sig-type-input" id="sig-typed" type="text" placeholder="Type your full legal name to sign" autocomplete="off">
+        </div>
+        <div class="sig-pane" id="sig-pane-draw">
+          <div class="sig-canvas-wrap">
+            <canvas id="sig-canvas"></canvas>
+            <button class="sig-clear-btn" onclick="clearSignature()">Clear</button>
+          </div>
+          <div class="sig-hint">Sign with your finger or mouse</div>
+        </div>
+        <div class="sig-error" id="sig-error">Please provide your signature before placing your order.</div>
+      </div>
+
       <div class="payment-note">
-        💳 Accepted payment: Cash or Venmo only. Payment details will be provided after order confirmation.
+        We will follow up after your order request with available payment options.
       </div>
 
       <button class="place-order-btn" id="place-order-btn" onclick="placeOrder()">Place Order</button>
@@ -2007,7 +2121,7 @@
             <span class="logo-sub">Research Biochemicals</span>
           </div>
         </div>
-        <p>High-purity research peptides and reagents for laboratory investigation. California-based. Research use only. Not for human consumption.</p>
+        <p>Research peptides and reagents for in vitro laboratory investigation only. Not for human consumption.</p>
       </div>
       <div class="footer-col">
         <h4>Navigation</h4>
@@ -2351,6 +2465,79 @@ function quickAdd(id) {
   showToast(getProduct(id).shortName + ' added');
 }
 
+// ═══════════════════════════════════════════════════════
+//  SIGNATURE LOGIC
+// ═══════════════════════════════════════════════════════
+let sigDrawing = false;
+let sigCtx = null;
+
+function initSignatureCanvas() {
+  const canvas = document.getElementById('sig-canvas');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+  canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+  sigCtx = canvas.getContext('2d');
+  sigCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  sigCtx.strokeStyle = '#0a1628';
+  sigCtx.lineWidth = 2;
+  sigCtx.lineCap = 'round';
+  sigCtx.lineJoin = 'round';
+
+  canvas.addEventListener('mousedown', sigStart);
+  canvas.addEventListener('mousemove', sigDraw);
+  canvas.addEventListener('mouseup', sigEnd);
+  canvas.addEventListener('mouseleave', sigEnd);
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); sigStart(e.touches[0]); }, { passive: false });
+  canvas.addEventListener('touchmove', e => { e.preventDefault(); sigDraw(e.touches[0]); }, { passive: false });
+  canvas.addEventListener('touchend', sigEnd);
+}
+
+function getCanvasPos(canvas, e) {
+  const rect = canvas.getBoundingClientRect();
+  return { x: (e.clientX - rect.left), y: (e.clientY - rect.top) };
+}
+
+function sigStart(e) {
+  sigDrawing = true;
+  const canvas = document.getElementById('sig-canvas');
+  const pos = getCanvasPos(canvas, e);
+  sigCtx.beginPath();
+  sigCtx.moveTo(pos.x, pos.y);
+}
+
+function sigDraw(e) {
+  if (!sigDrawing) return;
+  const canvas = document.getElementById('sig-canvas');
+  const pos = getCanvasPos(canvas, e);
+  sigCtx.lineTo(pos.x, pos.y);
+  sigCtx.stroke();
+}
+
+function sigEnd() { sigDrawing = false; }
+
+function clearSignature() {
+  const canvas = document.getElementById('sig-canvas');
+  if (sigCtx) sigCtx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function sigCanvasEmpty(canvas) {
+  const ctx = canvas.getContext('2d');
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  return !data.some(v => v !== 0);
+}
+
+function switchSigTab(tab, btn) {
+  document.querySelectorAll('.sig-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sig-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sig-pane-' + tab).classList.add('active');
+  document.getElementById('sig-error').style.display = 'none';
+  if (tab === 'draw') {
+    setTimeout(initSignatureCanvas, 50);
+  }
+}
+
 function openCart() {
   document.getElementById('cart-overlay').classList.add('open');
 }
@@ -2407,6 +2594,29 @@ function placeOrder() {
     return;
   }
 
+  // Validate signature
+  const sigError = document.getElementById('sig-error');
+  const activePane = document.querySelector('.sig-pane.active');
+  let signatureData = null;
+
+  if (activePane && activePane.id === 'sig-pane-type') {
+    const typed = document.getElementById('sig-typed').value.trim();
+    if (!typed) {
+      sigError.style.display = 'block';
+      document.getElementById('sig-typed').focus();
+      return;
+    }
+    signatureData = 'Typed: ' + typed;
+  } else {
+    const canvas = document.getElementById('sig-canvas');
+    if (sigCanvasEmpty(canvas)) {
+      sigError.style.display = 'block';
+      return;
+    }
+    signatureData = canvas.toDataURL('image/png');
+  }
+  sigError.style.display = 'none';
+
   // Build order summary
   const keys = Object.keys(cart).filter(k => cart[k] > 0);
   let total = 0;
@@ -2417,7 +2627,7 @@ function placeOrder() {
     return `${p.name} × ${cart[id]} = $${sub}`;
   });
 
-  sendOrderEmail(first, last, email, lab, orderLines, total);
+  sendOrderEmail(first, last, email, lab, orderLines, total, signatureData);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2439,24 +2649,22 @@ const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // from Email Templates tab
 
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
-function sendOrderEmail(first, last, email, lab, orderLines, total) {
-  const templateParams = {
-    customer_name:  `${first} ${last}`,
-    customer_email: email,
-    lab_name:       lab || 'N/A',
-    order_items:    orderLines.join('\n'),
-    order_total:    `$${total.toFixed(2)}`,
-    reply_to:       email
-  };
-
-  // Show thank-you page immediately; send email in background
+async function sendOrderEmail(first, last, email, lab, orderLines, total, signatureData) {
   showThankYouPage(first, last, email, lab, orderLines, total);
   cart = {};
   updateCartUI();
 
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-    .then(() => console.log('Order email sent.'))
-    .catch(err => console.warn('EmailJS error (configure keys to enable):', err));
+  try {
+    const res = await fetch('/api/send-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ first, last, email, lab, orderLines, total, signatureData })
+    });
+    if (!res.ok) throw new Error('Failed');
+    console.log('Order email sent successfully.');
+  } catch (err) {
+    console.warn('Email send failed:', err);
+  }
 }
 
 function showThankYouPage(first, last, email, lab, orderLines, total) {
