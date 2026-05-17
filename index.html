@@ -838,6 +838,13 @@
     position: sticky;
     bottom: 0;
     background: var(--white);
+    z-index: 10;
+  }
+
+  @media (max-width: 768px) {
+    .cart-footer {
+      bottom: 70px;
+    }
   }
 
   .cart-total {
@@ -1607,7 +1614,7 @@
     .form-row { grid-template-columns: 1fr; }
     .nav-links { display: none; }
     .mobile-checkout-bar { display: flex; }
-    .cart-body { padding-bottom: 80px; }
+    .cart-body { padding-bottom: 160px; }
   }
 </style>
 </head>
