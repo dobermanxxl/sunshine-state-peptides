@@ -2743,19 +2743,32 @@ function applyDiscount() {
   const input = document.getElementById('discount-input');
   const msg = document.getElementById('discount-msg');
   const code = input.value.trim();
+
   if (code === DISCOUNT_CODE) {
     discountApplied = true;
+    // Update UI without full re-render to preserve input state
     msg.className = 'discount-msg success';
+    msg.style.display = 'block';
     msg.textContent = '✓ 20% discount applied!';
     input.disabled = true;
-    document.querySelector('.discount-apply-btn').disabled = true;
-    document.querySelector('.discount-apply-btn').style.opacity = '0.5';
-    renderCartBody();
+    const applyBtn = document.querySelector('.discount-apply-btn');
+    if (applyBtn) { applyBtn.disabled = true; applyBtn.style.opacity = '0.5'; }
+    // Update totals
+    const cartKeys = Object.keys(cart).filter(k => cart[k] > 0);
+    let total = 0;
+    cartKeys.forEach(id => { const p = getProduct(id); if (p) total += p.price * cart[id]; });
+    const savings = total * DISCOUNT_RATE;
+    const savingsEl = document.getElementById('cart-savings');
+    const savingsAmt = document.getElementById('cart-savings-amount');
+    if (savingsEl) savingsEl.style.display = 'flex';
+    if (savingsAmt) savingsAmt.textContent = '−$' + savings.toFixed(2);
+    document.getElementById('cart-total').textContent = '$' + (total - savings).toFixed(2);
+    updateCartUI();
   } else {
     discountApplied = false;
     msg.className = 'discount-msg error';
+    msg.style.display = 'block';
     msg.textContent = '✕ Invalid discount code.';
-    renderCartBody();
   }
 }
 
