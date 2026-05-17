@@ -2391,13 +2391,15 @@ async function loadProducts() {
     const text = await res.text();
     const rows = parseCSV(text);
     const products = rows.map(csvRowToProduct);
-    PEPTIDES    = products.filter(p => p.category !== 'reagent');
-    REAGENTS    = products.filter(p => p.category === 'reagent');
+    const sort = arr => arr.sort((a, b) => a.name.localeCompare(b.name));
+    PEPTIDES    = sort(products.filter(p => p.category !== 'reagent'));
+    REAGENTS    = sort(products.filter(p => p.category === 'reagent'));
     allProducts = [...PEPTIDES, ...REAGENTS];
   } catch(e) {
     console.warn('Google Sheet unavailable, using fallback data.', e);
-    PEPTIDES    = PEPTIDES_FALLBACK;
-    REAGENTS    = REAGENTS_FALLBACK;
+    const sort = arr => arr.sort((a, b) => a.name.localeCompare(b.name));
+    PEPTIDES    = sort([...PEPTIDES_FALLBACK]);
+    REAGENTS    = sort([...REAGENTS_FALLBACK]);
     allProducts = [...PEPTIDES, ...REAGENTS];
   }
   renderProducts();
