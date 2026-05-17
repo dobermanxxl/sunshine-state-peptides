@@ -2742,9 +2742,9 @@ function sigCanvasEmpty(canvas) {
 function applyDiscount() {
   const input = document.getElementById('discount-input');
   const msg = document.getElementById('discount-msg');
-  const code = input.value.trim();
+  const code = input.value.trim().toLowerCase();
 
-  if (code === DISCOUNT_CODE) {
+  if (code === DISCOUNT_CODE.toLowerCase()) {
     discountApplied = true;
     // Update UI without full re-render to preserve input state
     msg.className = 'discount-msg success';
