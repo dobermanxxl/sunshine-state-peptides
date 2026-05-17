@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, nocache">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="bingbot" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sunshine State Peptides | Laboratory Research Chemicals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -692,7 +695,6 @@
     width: 480px;
     max-width: 100vw;
     height: 100vh;
-    height: 100dvh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -876,68 +878,6 @@
   }
 
   .checkout-btn:hover { background: var(--teal-dim); }
-
-  .discount-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .discount-input {
-    flex: 1;
-    border: 1px solid var(--cream-mid);
-    background: var(--cream);
-    padding: 9px 12px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--navy);
-    border-radius: 2px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .discount-input:focus { border-color: var(--teal); background: var(--white); }
-  .discount-apply-btn {
-    background: var(--navy);
-    color: var(--white);
-    border: none;
-    padding: 9px 14px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-radius: 2px;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-  .discount-apply-btn:hover { background: var(--teal-dim); }
-  .discount-msg {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    margin-bottom: 10px;
-    padding: 6px 10px;
-    border-radius: 2px;
-    display: none;
-  }
-  .discount-msg.success {
-    display: block;
-    background: rgba(0,184,169,0.1);
-    border: 1px solid rgba(0,184,169,0.3);
-    color: var(--teal-dim);
-  }
-  .discount-msg.error {
-    display: block;
-    background: rgba(192,57,43,0.07);
-    border: 1px solid rgba(192,57,43,0.25);
-    color: var(--danger);
-  }
-  .cart-savings {
-    display: flex;
-    justify-content: space-between;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--teal-dim);
-    margin-bottom: 8px;
-  }
 
   /* ─── CHECKOUT MODAL ─── */
   .modal-overlay {
@@ -1527,42 +1467,6 @@
 
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* Mobile cart FAB */
-  .mobile-cart-fab {
-    display: none;
-    position: fixed;
-    bottom: 24px;
-    right: 20px;
-    z-index: 150;
-    background: var(--teal);
-    color: var(--navy);
-    border: none;
-    border-radius: 50px;
-    padding: 14px 20px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0,184,169,0.4);
-    transition: all 0.2s;
-    align-items: center;
-    gap: 8px;
-  }
-  .mobile-cart-fab:hover { background: var(--teal-light); transform: translateY(-2px); }
-  .mobile-cart-fab .fab-badge {
-    background: var(--gold);
-    color: var(--navy);
-    font-size: 11px;
-    font-weight: 700;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   /* Responsive */
   @media (max-width: 768px) {
     .features-grid { grid-template-columns: 1fr; }
@@ -1571,7 +1475,6 @@
     .hero-stats { gap: 28px; flex-wrap: wrap; }
     .form-row { grid-template-columns: 1fr; }
     .nav-links { display: none; }
-    .mobile-cart-fab { display: flex; }
   }
 </style>
 </head>
@@ -1794,7 +1697,7 @@
 
       <div class="docs-block">
         <h3>Ordering & Fulfillment</h3>
-        <p>Orders are placed by submitting the online form. Upon submission, a confirmation will be sent and a representative will contact you within 24 hours to follow up with payment options and logistics.</p>
+        <p>Orders are placed by submitting the online form. Upon submission, a confirmation will be sent and a representative will contact you within 24 hours to arrange payment and logistics. Accepted payment methods are <span class="mono-tag">Cash</span> and <span class="mono-tag">Venmo</span>. Pickup and local delivery available throughout California.</p>
         <p>Maximum order quantity is 15 vials per product per order. All transactions are subject to verification of research intent.</p>
       </div>
 
@@ -1951,17 +1854,8 @@
       <div class="cart-empty">Your cart is empty.</div>
     </div>
     <div class="cart-footer" id="cart-footer" style="display:none;">
-      <div class="discount-row">
-        <input class="discount-input" id="discount-input" type="text" placeholder="Discount code">
-        <button class="discount-apply-btn" onclick="applyDiscount()">Apply</button>
-      </div>
-      <div class="discount-msg" id="discount-msg"></div>
-      <div class="cart-savings" id="cart-savings" style="display:none;">
-        <span>Discount (20% off)</span>
-        <span id="cart-savings-amount">−$0.00</span>
-      </div>
       <div class="cart-total">
-        <span class="cart-total-label">Total</span>
+        <span class="cart-total-label">Subtotal</span>
         <span class="cart-total-amount" id="cart-total">$0.00</span>
       </div>
       <button class="checkout-btn" onclick="openCheckout()">Place Order →</button>
@@ -2019,7 +1913,7 @@
       </div>
 
       <div class="payment-note">
-        We will follow up after your order request with available payment options.
+        💳 Accepted payment: Cash or Venmo only. Payment details will be provided after order confirmation.
       </div>
 
       <button class="place-order-btn" id="place-order-btn" onclick="placeOrder()">Place Order</button>
@@ -2038,7 +1932,7 @@
         </svg>
       </div>
       <h2>Order Submitted</h2>
-      <p>Thank you for your research order. Our team will contact you at the email address provided within <strong>24 hours</strong> to follow up with payment options and pickup or delivery logistics.</p>
+      <p>Thank you for your research order. Our team will contact you at the email address provided within <strong>24 hours</strong> to arrange payment (Cash or Venmo) and pickup or delivery logistics.</p>
       <div class="highlight" id="success-summary"></div>
       <p style="font-size:13px;color:#aaa;font-family:'DM Mono',monospace;">Questions? Use our contact form or reply to the confirmation email.</p>
       <button class="btn-primary" style="margin-top:8px;" onclick="closeSuccessModal()">Continue Browsing</button>
@@ -2065,7 +1959,7 @@
         </h1>
 
         <p style="font-size:16px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto;">
-          Your order has been received and submitted to our team. We will contact you at the email address you provided within <strong style="color:rgba(255,255,255,0.85);">24 hours</strong> to confirm your order, provide payment options, and determine your preferred method of delivery or pickup.
+          Your order has been received and submitted to our team. We will contact you at the email address you provided within <strong style="color:rgba(255,255,255,0.85);">24 hours</strong> to confirm your order, arrange payment, and determine your preferred method of delivery or pickup.
         </p>
 
         <!-- Order recap card -->
@@ -2077,7 +1971,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px;text-align:left;">
           <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:20px;">
             <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">Payment</div>
-            <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;">We will follow up with payment options when we reach out.</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;">Cash or Venmo accepted. Payment details will be provided when we reach out.</div>
           </div>
           <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);padding:20px;">
             <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">Delivery</div>
@@ -2097,11 +1991,6 @@
     </div>
   </div>
 </div>
-
-<!-- ─── MOBILE CART FAB ─── -->
-<button class="mobile-cart-fab" id="mobile-cart-fab" onclick="openCart()" style="display:none;">
-  🛒 Cart <span class="fab-badge" id="fab-badge">0</span>
-</button>
 
 <!-- ─── TOAST ─── -->
 <div class="toast" id="toast"></div>
@@ -2150,14 +2039,9 @@
 
 <script>
 // ═══════════════════════════════════════════════════════
-//  GOOGLE SHEETS CSV URL — update this if you republish
+//  PRODUCT DATA — Easy to add/edit products here
 // ═══════════════════════════════════════════════════════
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSxHFobKWEkE3ue6txkYENO7zUnqtu_d8Wjme-C8_28R6_cCD2YlKw-sFo4FrXkGyJqybttXx8t2vc5/pub?gid=0&single=true&output=csv';
-
-// ═══════════════════════════════════════════════════════
-//  FALLBACK PRODUCT DATA (used if sheet is unavailable)
-// ═══════════════════════════════════════════════════════
-const PEPTIDES_FALLBACK = [
+const PEPTIDES = [
   {
     id: 'bpc157',
     name: 'BPC-157, 5 mg (lyophilized)',
@@ -2264,7 +2148,7 @@ const PEPTIDES_FALLBACK = [
   }
 ];
 
-const REAGENTS_FALLBACK = [
+const REAGENTS = [
   {
     id: 'bacwater',
     name: 'Bacteriostatic Water (BAC Water), 30 mL',
@@ -2283,84 +2167,12 @@ const REAGENTS_FALLBACK = [
 // ═══════════════════════════════════════════════════════
 //  CART STATE
 // ═══════════════════════════════════════════════════════
-let cart = {};
-let discountApplied = false;
-const DISCOUNT_CODE = 'buzzard20';
-const DISCOUNT_RATE = 0.20;
-let PEPTIDES = [];
-let REAGENTS = [];
-let allProducts = [];
+let cart = {};  // { productId: quantity }
+
+const allProducts = [...PEPTIDES, ...REAGENTS];
 
 function getProduct(id) {
   return allProducts.find(p => p.id === id);
-}
-
-// ═══════════════════════════════════════════════════════
-//  CSV PARSER
-// ═══════════════════════════════════════════════════════
-function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
-  return lines.slice(1).map(line => {
-    // Handle quoted fields with commas inside
-    const values = [];
-    let current = '';
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') { inQuotes = !inQuotes; }
-      else if (ch === ',' && !inQuotes) { values.push(current.trim()); current = ''; }
-      else { current += ch; }
-    }
-    values.push(current.trim());
-    const obj = {};
-    headers.forEach((h, i) => { obj[h] = (values[i] || '').replace(/^"|"$/g, '').trim(); });
-    return obj;
-  }).filter(row => row.id && row.id.length > 0);
-}
-
-function csvRowToProduct(row) {
-  return {
-    id:        row.id,
-    name:      row.name,
-    shortName: row.shortName,
-    mg:        row.mg,
-    price:     parseFloat(row.price) || 0,
-    cas:       row.cas,
-    sequence:  row.sequence,
-    formula:   row.formula,
-    mw:        row.mw,
-    desc:      row.desc,
-    pairsWith: row.pairsWith ? row.pairsWith.split('|').map(s => s.trim()).filter(Boolean) : [],
-    category:  row.category || 'peptide'
-  };
-}
-
-// ═══════════════════════════════════════════════════════
-//  LOAD PRODUCTS FROM GOOGLE SHEETS
-// ═══════════════════════════════════════════════════════
-async function loadProducts() {
-  const grid1 = document.getElementById('peptides-grid');
-  const grid2 = document.getElementById('reagents-grid');
-  if (grid1) grid1.innerHTML = '<div style="padding:24px;font-family:var(--font-mono);font-size:13px;color:var(--gray-600);">Loading products...</div>';
-  if (grid2) grid2.innerHTML = '';
-
-  try {
-    const res = await fetch(SHEET_CSV_URL);
-    if (!res.ok) throw new Error('Sheet fetch failed');
-    const text = await res.text();
-    const rows = parseCSV(text);
-    const products = rows.map(csvRowToProduct);
-    PEPTIDES   = products.filter(p => p.category !== 'reagent');
-    REAGENTS   = products.filter(p => p.category === 'reagent');
-    allProducts = [...PEPTIDES, ...REAGENTS];
-  } catch (e) {
-    console.warn('Could not load Google Sheet, using fallback data.', e);
-    PEPTIDES    = PEPTIDES_FALLBACK;
-    REAGENTS    = REAGENTS_FALLBACK;
-    allProducts = [...PEPTIDES, ...REAGENTS];
-  }
-  renderProducts();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2384,9 +2196,6 @@ function vialSVG(color = '#00b8a9') {
 function renderProducts() {
   renderGrid('peptides-grid', PEPTIDES);
   renderGrid('reagents-grid', REAGENTS);
-  // Hide reagents section header if no reagents
-  const reagentSection = document.getElementById('reagents-section');
-  if (reagentSection) reagentSection.style.display = REAGENTS.length ? '' : 'none';
 }
 
 function renderGrid(containerId, products) {
@@ -2450,15 +2259,11 @@ function addToCart(id) {
 function updateCartUI() {
   const totalItems = Object.values(cart).reduce((s, q) => s + q, 0);
   const badge = document.getElementById('cart-badge');
-  const fab = document.getElementById('mobile-cart-fab');
-  const fabBadge = document.getElementById('fab-badge');
   if (totalItems > 0) {
     badge.style.display = 'flex';
     badge.textContent = totalItems;
-    if (fab) { fab.style.display = 'flex'; fabBadge.textContent = totalItems; }
   } else {
     badge.style.display = 'none';
-    if (fab) fab.style.display = 'none';
   }
   renderCartBody();
 }
@@ -2509,18 +2314,7 @@ function renderCartBody() {
 
   body.innerHTML = itemsHTML + suggestHTML;
   footer.style.display = 'block';
-  // Apply discount if active
-  const savings = discountApplied ? total * DISCOUNT_RATE : 0;
-  const finalTotal = total - savings;
-  const savingsEl = document.getElementById('cart-savings');
-  const savingsAmt = document.getElementById('cart-savings-amount');
-  if (discountApplied) {
-    savingsEl.style.display = 'flex';
-    savingsAmt.textContent = '−$' + savings.toFixed(2);
-  } else {
-    savingsEl.style.display = 'none';
-  }
-  document.getElementById('cart-total').textContent = '$' + finalTotal.toFixed(2);
+  document.getElementById('cart-total').textContent = '$' + total.toFixed(2);
 }
 
 function getSuggestions(cartIds) {
@@ -2557,27 +2351,6 @@ function quickAdd(id) {
   showToast(getProduct(id).shortName + ' added');
 }
 
-function applyDiscount() {
-  const input = document.getElementById('discount-input');
-  const msg = document.getElementById('discount-msg');
-  const code = input.value.trim();
-
-  if (code === DISCOUNT_CODE) {
-    discountApplied = true;
-    msg.className = 'discount-msg success';
-    msg.textContent = '✓ 20% discount applied!';
-    input.disabled = true;
-    document.querySelector('.discount-apply-btn').disabled = true;
-    document.querySelector('.discount-apply-btn').style.opacity = '0.5';
-    renderCartBody();
-  } else {
-    discountApplied = false;
-    msg.className = 'discount-msg error';
-    msg.textContent = '✕ Invalid discount code.';
-    renderCartBody();
-  }
-}
-
 function openCart() {
   document.getElementById('cart-overlay').classList.add('open');
 }
@@ -2604,11 +2377,6 @@ function openCheckout() {
     total += sub;
     return `<div class="checkout-item-row"><span class="item-name">${p.shortName} × ${cart[id]}</span><span>$${sub}</span></div>`;
   }).join('');
-  if (discountApplied) {
-    const savings = total * DISCOUNT_RATE;
-    rows += `<div class="checkout-item-row" style="color:var(--teal-dim);"><span class="item-name">Discount (buzzard20 — 20% off)</span><span>−$${savings.toFixed(2)}</span></div>`;
-    total = total - savings;
-  }
   rows += `<div class="checkout-total-row"><span>Total</span><span>$${total.toFixed(2)}</span></div>`;
   document.getElementById('checkout-summary').innerHTML = '<h4>Order Summary</h4>' + rows;
 
@@ -2671,22 +2439,24 @@ const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // from Email Templates tab
 
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
-async function sendOrderEmail(first, last, email, lab, orderLines, total) {
+function sendOrderEmail(first, last, email, lab, orderLines, total) {
+  const templateParams = {
+    customer_name:  `${first} ${last}`,
+    customer_email: email,
+    lab_name:       lab || 'N/A',
+    order_items:    orderLines.join('\n'),
+    order_total:    `$${total.toFixed(2)}`,
+    reply_to:       email
+  };
+
+  // Show thank-you page immediately; send email in background
   showThankYouPage(first, last, email, lab, orderLines, total);
   cart = {};
   updateCartUI();
 
-  try {
-    const res = await fetch('/api/send-order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ first, last, email, lab, orderLines, total })
-    });
-    if (!res.ok) throw new Error('Failed');
-    console.log('Order email sent successfully.');
-  } catch (err) {
-    console.warn('Email send failed:', err);
-  }
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .then(() => console.log('Order email sent.'))
+    .catch(err => console.warn('EmailJS error (configure keys to enable):', err));
 }
 
 function showThankYouPage(first, last, email, lab, orderLines, total) {
@@ -2754,7 +2524,7 @@ function submitContact() {
 
   const subject = encodeURIComponent(`SSP Contact — ${first} ${last}`);
   const body = encodeURIComponent(`From: ${first} ${last}\nEmail: ${email}\nOrg: ${document.getElementById('contact-org').value}\n\nMessage:\n${message}`);
-  window.open(`mailto:sunshinestatep@protonmail.com?subject=${subject}&body=${body}`);
+  window.open(`mailto:k9boxer@gmail.com?subject=${subject}&body=${body}`);
 
   document.getElementById('contact-success').classList.add('shown');
   ['contact-first','contact-last','contact-email','contact-org','contact-message'].forEach(id => {
@@ -2793,7 +2563,7 @@ function showToast(msg) {
 //  INIT
 // ═══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-  loadProducts();
+  renderProducts();
 });
 </script>
 </body>
