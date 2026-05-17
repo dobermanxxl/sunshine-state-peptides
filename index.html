@@ -1558,6 +1558,46 @@
 
   .toast.show { transform: translateX(-50%) translateY(0); }
 
+  /* Mobile checkout bar */
+  .mobile-checkout-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: var(--navy);
+    padding: 12px 16px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    align-items: center;
+    gap: 12px;
+  }
+  .mobile-checkout-bar-info {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+  }
+  .mobile-checkout-bar-info strong {
+    display: block;
+    color: var(--white);
+    font-size: 14px;
+  }
+  .mobile-checkout-bar-btn {
+    background: var(--teal);
+    color: var(--navy);
+    border: none;
+    padding: 12px 20px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .mobile-checkout-bar-btn:active { background: var(--teal-dim); }
+
   /* Responsive */
   @media (max-width: 768px) {
     .features-grid { grid-template-columns: 1fr; }
@@ -1566,6 +1606,7 @@
     .hero-stats { gap: 28px; flex-wrap: wrap; }
     .form-row { grid-template-columns: 1fr; }
     .nav-links { display: none; }
+    .mobile-checkout-bar { display: flex; }
   }
 </style>
 </head>
@@ -2098,6 +2139,15 @@
   </div>
 </div>
 
+<!-- ─── MOBILE CHECKOUT BAR ─── -->
+<div class="mobile-checkout-bar" id="mobile-checkout-bar" style="display:none;">
+  <div class="mobile-checkout-bar-info">
+    <strong id="mobile-bar-total">$0.00</strong>
+    <span id="mobile-bar-items">0 items</span>
+  </div>
+  <button class="mobile-checkout-bar-btn" onclick="openCheckout()">Checkout →</button>
+</div>
+
 <!-- ─── TOAST ─── -->
 <div class="toast" id="toast"></div>
 
@@ -2436,11 +2486,26 @@ function addToCart(id) {
 function updateCartUI() {
   const totalItems = Object.values(cart).reduce((s, q) => s + q, 0);
   const badge = document.getElementById('cart-badge');
+  const bar = document.getElementById('mobile-checkout-bar');
+
   if (totalItems > 0) {
     badge.style.display = 'flex';
     badge.textContent = totalItems;
+    if (bar) {
+      bar.style.display = 'flex';
+      // Calculate total for bar
+      let barTotal = 0;
+      Object.entries(cart).forEach(([id, qty]) => {
+        const p = getProduct(id);
+        if (p) barTotal += p.price * qty;
+      });
+      const savings = discountApplied ? barTotal * DISCOUNT_RATE : 0;
+      document.getElementById('mobile-bar-total').textContent = '$' + (barTotal - savings).toFixed(2);
+      document.getElementById('mobile-bar-items').textContent = totalItems + (totalItems === 1 ? ' item' : ' items') + (discountApplied ? ' · 20% off applied' : '');
+    }
   } else {
     badge.style.display = 'none';
+    if (bar) bar.style.display = 'none';
   }
   renderCartBody();
 }
